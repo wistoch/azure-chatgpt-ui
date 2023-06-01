@@ -18,6 +18,7 @@ export function middleware(req: NextRequest) {
 
   //Use access code to protect the connection
   if (ACCESS_CODES.size > 0 && !ACCESS_CODES.has(hashedCode) && !token) {
+    console.log("[Auth] Auth failed");
     return NextResponse.json(
       {
         error: true,
@@ -32,7 +33,7 @@ export function middleware(req: NextRequest) {
 
   // inject api key
   if (!token) {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.AZURE_OPENAI_API_KEY;
     if (apiKey) {
       console.log("[Auth] set system token");
       req.headers.set("token", apiKey);
